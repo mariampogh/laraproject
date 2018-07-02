@@ -1,9 +1,9 @@
 @include('header')
 
 <div class="container">
-
+  {!! $error !!}
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Ավելացնել դասընթաց</button>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add product</button>
 
 <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog">
@@ -55,8 +55,8 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type = "hidden" class = "hidden_id" name = "id">
 
-              <button type="submit" class="btn btn-default yes">Այո</button>
-  						<button type="button" class="btn btn-default" data-dismiss="modal">Ոչ</button>
+              <button type="submit" class="btn btn-default yes">Yes</button>
+  						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
             </form>
 					</div>
 				</div>
@@ -139,4 +139,4 @@
 </div>
 </div>
 
-  @include('footer')
+  @include('footer1')

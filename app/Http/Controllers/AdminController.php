@@ -8,17 +8,25 @@ use App\Category;
 use App\Product;
 class AdminController extends Controller
 {
-  
+
+  // DB_DATABASE=1336016
+  // DB_USERNAME=1336016
+  // DB_PASSWORD=dingomingo1
   private $error;
   public function __construct(){
       $this->middleware('admin');
    }
-
+   //
+   // public function index(){
+   //   $this->error = "";
+   //   return $this->error;
+   // }
 
    public function admin(){
       $categories = Category::orderBy('id', 'DESC')->get();
       //dd($categories);
-      return view('/admin')->with('categories',$categories);
+      //$this->error= "kkkkkkkkkkk";
+      return view('/admin')->with('categories',$categories)->with('error',$this->error);
 
   }
 
@@ -99,7 +107,7 @@ class AdminController extends Controller
            }
            else{
              $this->error = '<div class="alert alert-danger">
-                       <strong>Ուշադրություն!</strong> Կատեգորիան չի ջնջվել:
+                       <strong>Warning!</strong> The category  is not deleted.
                        </div>';
            }
          }
@@ -110,18 +118,18 @@ class AdminController extends Controller
                  File::delete($image_path);
                  Category::find($input['id'])->delete();
                  $this->error = '<div class="alert alert-success">
-                           Կատեգորիան ջնջված է:
+                           The category  is deleted.
                            </div>';
              }
              else{
                $this->error = '<div class="alert alert-danger">
-                         <strong>Ուշադրություն!</strong> Կատեգորիան չի ջնջվել ամբողջությամբ:
+                         <strong>Warning!</strong> The category  is not fully deleted.
                          </div>';
              }
            }
            else{
              $this->error = '<div class="alert alert-danger">
-                       <strong>Ուշադրություն!</strong> Կատեգորիան չի ջնջվել ամբողջությամբ:
+                       <strong>Warning!</strong> The category  is not fully deleted.
                        </div>';
            }
            return redirect('/admin');
@@ -132,7 +140,8 @@ class AdminController extends Controller
 
              public function productsOfCategory($id){
                $products = Product::where('cat_id', $id)->get();
-               return view('/adminCatProducts')->with('products',$products)->with('cat_id',$id);
+               //dd($this->error);
+               return view('/adminCatProducts')->with('products',$products)->with('cat_id',$id)->with('error',$this->error);
              }
 
 
@@ -141,7 +150,7 @@ class AdminController extends Controller
                foreach($input as $i){
                  if(!isset($i)){
                  $this->error = '<div class="alert alert-danger">
-                             <strong>Ուշադրություն!</strong> Դասընթաց ավելացնելու համար անհրաժեշտ է լրացնել բոլոր դաշտերը:
+                             <strong>Warning!</strong> Fill all fields to add product:
                              </div>';
                  }
                }
@@ -152,7 +161,7 @@ class AdminController extends Controller
                  $arrImgName = explode(".",$image);
                  if (!in_array(strtolower(end($arrImgName)), $arrImgTypes)){
                    $this->error = '<div class="alert alert-danger">
-                             <strong>Ուշադրություն!</strong> Դասընթացը չի ավելացվել, քանի որ ընտրված ֆայլը նկար չէր:
+                             <strong>Warning!</strong> The product is not added becouse selected file was not picture:
                              </div>';
                  }
                  else{
@@ -172,7 +181,7 @@ class AdminController extends Controller
                                          'image' => $image,
                                        ]);
                        $this->error = '<div class="alert alert-success">
-                                 Դասընթացն ավելացվել է:
+                                 The product is added.
                                  </div>';
                    }
                  }
@@ -180,7 +189,7 @@ class AdminController extends Controller
                }
                else{
                  $this->error = '<div class="alert alert-danger">
-                           <strong>Ուշադրություն!</strong> Դասընթաց ավելացնելու համար անհրաժեշտ է լրացնել բոլոր դաշտերը:
+                            <strong>Warning!</strong> Fill all fields to add product:
                            </div>';
                }
                 return redirect('/adminCatProducts/'.$cat_id);
@@ -214,8 +223,8 @@ class AdminController extends Controller
                   }
                   else{
                     $this->error = '<div class="alert alert-danger">
-                              <strong>Ուշադրություն!</strong> Նկարի փոփոխություն չի կատարվել, քանի որ ընտրված ֆայլը նկար չէր:
-                              </div>';
+                              <strong>Warning!</strong> The current pictore is not changed becouse selected file is not picture.
+                            </div>';
                   }
                 }
                 if($input['name'] != ""){
@@ -223,7 +232,7 @@ class AdminController extends Controller
                 }
 
                 $product->save();
-                return redirect('/adminCatProducts/'.$cat_id);
+                return redirect('/adminCatProducts/'.$input['cat_id']);
                 //return $this->productsOfCategory($input['cat_id']);
               }
 
@@ -237,12 +246,12 @@ class AdminController extends Controller
                     File::delete($image_path);
                     Product::find($input['id'])->delete();
                     $this->error = '<div class="alert alert-success">
-                              Դասընթացը ջնջվել է:
+                              The product is deleted.
                               </div>';
                 }
                 else{
                   $this->error = '<div class="alert alert-danger">
-                            <strong>Ուշադրություն!</strong> Դասընթացը չի ջնջվել:
+                            <strong>Warning!</strong> The product is not deleted.
                             </div>';
                 }
                 return redirect('/adminCatProducts/'.$cat_id);

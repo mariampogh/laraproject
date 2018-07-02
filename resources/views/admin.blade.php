@@ -1,5 +1,6 @@
 @include('header')
 <div class="container">
+  {!! $error !!}
     <div class="row justify-content-center">
       <!-- Trigger the modal with a button -->
       <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add category</button>
@@ -115,7 +116,7 @@
 
     		    @foreach($categories as $cat)
     					<tr>
-    						<td class ="name{{$cat->id}}"><a href="/adminCatProducts/{{$cat->id}}" > {{$cat->name}}</a></td>
+    						<td class ="name{{$cat->id}}" style = "font-weight:bold"><a href="/adminCatProducts/{{$cat->id}}" > {{$cat->name}}</a></td>
     						<td><img src = "/uploads/categories/{{$cat->image}}" style = "width:150px; height:150px; overflow:hidden"></td>
     						<td>
 
@@ -136,4 +137,4 @@
     </div>
     </div>
 </div>
-@include('footer')
+@include('footer1')

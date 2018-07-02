@@ -24,13 +24,12 @@ $(document).ready(function(){
       $(".edit_name").val(name);
   	})
 
-    $('.team').hover(function () {
-        var id = $(this).attr('data-id');
-        $(".add"+id).fadeIn();
-    },function () {
-        var id = $(this).attr('data-id');
-        $(".add"+id).fadeOut();
-    });
+
+    $(".categoryToggle").click(function(){
+      var id = $(this).attr('data-id');
+            $(".fadeOut"+id).toggle();
+        });
+  
 
 
 

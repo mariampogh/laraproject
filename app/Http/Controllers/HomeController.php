@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         $categoryAndProduct =  Category::with('products')->get();
-      //  dd($categoryAndProduct);
+      // dd($categoryAndProduct);
           return view('/welcome')->with('categoryAndProduct',$categoryAndProduct);
     }
 }
