@@ -49,7 +49,12 @@ class AdminController extends Controller
              }
              $image = $lastRecordId + 1;
              $image = $image.'.'.end($arrImgName);
-             $imgUpload = move_uploaded_file($tempName, public_path().'/uploads/categories/'.$image);
+             $path = public_path().'/uploads/categories';
+             if (!file_exists($path)) {
+                File::makeDirectory($path,0777,true);
+              }
+              // dd('a');
+             $imgUpload = move_uploaded_file($tempName,$path.'/'.$image);
              if($imgUpload ){
                 Category::create(['name' => $input["name"],'image' => $image]);
              }
@@ -99,11 +104,13 @@ class AdminController extends Controller
       public function deleteCategory(Request $request){
          $input = $request->all();
          $products = Category::find($input["id"])->products;
+
          foreach($products as $prd){
-           $image_path =  public_path().'/uploads/products/'. $prd['image'];
+          // dd($prd->id);
+           $image_path =  public_path().'/uploads/products/'. $prd->image;
            if(File::exists($image_path)) {
                File::delete($image_path);
-               Products::find($prd['id'])->delete();
+               Product::find($prd->id)->delete();
            }
            else{
              $this->error = '<div class="alert alert-danger">
@@ -174,7 +181,11 @@ class AdminController extends Controller
                    }
                    $image = $lastRecordId + 1;
                    $image = $image.'.'.end($arrImgName);
-                   $imgUpload = move_uploaded_file($tempName, public_path().'/uploads/products/'.$image);
+                   $path = public_path().'/uploads/products';
+                   if (!file_exists($path)) {
+                      File::makeDirectory($path,0777,true);
+                    }
+                   $imgUpload = move_uploaded_file($tempName, $path.'/'.$image);
                    if($imgUpload ){
                       Product::create([ 'cat_id' => $cat_id,
                                          'product' => $input["product"],
