@@ -39,6 +39,7 @@ class LoginController extends Controller
 
     protected function authenticated($request, $user)
    {
+    
       $admin_role_id = Role::where('name','admin')->first()->id;
        if($user->role == $admin_role_id) {
            return redirect()->intended('/admin');

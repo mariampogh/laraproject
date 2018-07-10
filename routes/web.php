@@ -16,6 +16,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+Route::get('/getProducts/{id}/', 'HomeController@getProducts');
+Route::post('/searchProduct', 'HomeController@searchProduct');
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~//
 Route::get('/admin', 'AdminController@admin');
 Route::post('/addCategory','AdminController@addCategory');

@@ -9,9 +9,7 @@ use App\Product;
 class AdminController extends Controller
 {
 
-  // DB_DATABASE=1336016
-  // DB_USERNAME=1336016
-  // DB_PASSWORD=dingomingo1
+
   private $error;
   public function __construct(){
       $this->middleware('admin');
@@ -24,8 +22,6 @@ class AdminController extends Controller
 
    public function admin(){
       $categories = Category::orderBy('id', 'DESC')->get();
-      //dd($categories);
-      //$this->error= "kkkkkkkkkkk";
       return view('/admin')->with('categories',$categories)->with('error',$this->error);
 
   }
@@ -147,8 +143,9 @@ class AdminController extends Controller
 
              public function productsOfCategory($id){
                $products = Product::where('cat_id', $id)->get();
+               $categories = Category::orderBy('id', 'DESC')->get();
                //dd($this->error);
-               return view('/adminCatProducts')->with('products',$products)->with('cat_id',$id)->with('error',$this->error);
+               return view('/adminCatProducts')->with('products',$products)->with('categories',$categories)->with('cat_id',$id)->with('error',$this->error);
              }
 
 

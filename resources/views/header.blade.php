@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css"  href="/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="/font-awesome-4.2.0/css/font-awesome.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
-        
+
         <!-- Stylesheet
         ================================================== -->
 
@@ -41,62 +41,68 @@
 </head>
 <!-- <body background="/img/background.png" style ="background-repeat:no-repeat";> -->
     <div id="app">
+
         <nav class="navbar navbar-inverse navbar-static-top">
-            <div class="container" >
-                <div class="navbar-header">
+          <div class="container-fluid container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">laraProject</a>
+            </div>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-
-                      <div class="container-fluid">
-                        <div class="navbar-header">
-                          <a class="navbar-brand" href="/">laraProject</a>
-                        </div>
-                      </div>
-
-
-
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     @foreach($categories as $cat)
+                    <li><a href="/getProducts/{{$cat->id}}">{{$cat->name}}</a></li>
+                    @endforeach
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-left" action="/searchProduct "method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <input type="text" class="form-control" placeholder="Search" name="search" >
                 </div>
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </form>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+              <ul class="nav navbar-nav navbar-right">
+                @guest
+                    <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> LogIn</a></li>
+                    <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
 
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> LogIn</a></li>
-                            <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    LogOut
                                 </a>
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            LogOut
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
+                        </ul>
+                    </li>
 
-                        @endguest
-                    </ul>
-                </div>
-            </div>
+                @endguest
+
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
         </nav>
 </div>
